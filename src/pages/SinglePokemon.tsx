@@ -11,7 +11,6 @@ const SinglePokemonPage: React.FC = () => {
     let foundPokemon = pokemonData.find(
       pd => pd.name.toLowerCase() === pokemonName
     );
-    console.log(foundPokemon);
     setPokemon(updateEvolution(foundPokemon));
   }, [pokemonName]);
 
@@ -45,7 +44,6 @@ const SinglePokemonPage: React.FC = () => {
       });
     }
 
-    console.log(poke);
     return poke;
   };
   return (
@@ -72,22 +70,25 @@ const SinglePokemonPage: React.FC = () => {
                     {/* Pokemon Details */}
                     <div className='row'>
                       <div className='col'>
-                        <div className='text-secondary'>Height</div>
-                        <div>{pokemon.height}</div>
-                        <div className='text-secondary'>Weight</div>
-                        <div>{pokemon.weight}</div>
+                        <div className='text-secondary'>Height: {pokemon.height}</div>
+                        <div className='text-secondary'>Weight: {pokemon.weight}</div>
+                        <div className='text-secondary'>Candy: {pokemon.candy}</div>
+                        <div className='text-secondary'>Number needed to evolve: {pokemon.candy_count}</div>
+                        <div className='text-secondary'>Distance walked to hatch egg: {pokemon.egg}</div>
+                        <div className='text-secondary'>Number of spawns per 10,000: {pokemon.avg_spawns}</div>
+                        <div className='text-secondary'>Spawn Chance: {pokemon.spawn_chance}%</div>
+                        <div className='text-secondary'>Most common spawn time: {pokemon.spawn_time}</div>
+
+
+
+
                       </div>
                       <div className='col'>
                         <div className='text-secondary'>Type</div>
                         <div>
                           {pokemon.type.map((t, i) => {
                             return (
-                              <span
-                                className='badge badge-pill text-white mx-1'
-                                style={{ backgroundColor: setTypeColor(t) }}
-                                key={i}>
-                                {t}
-                              </span>
+                              <span className='badge badge-pill text-white mx-1' style={{ backgroundColor: setTypeColor(t) }} key={i}> {t} </span>
                             );
                           })}
                         </div>
@@ -96,12 +97,7 @@ const SinglePokemonPage: React.FC = () => {
                         <div>
                           {pokemon.weaknesses.map((w, i) => {
                             return (
-                              <span
-                                className='badge badge-pill text-white mx-1'
-                                style={{ backgroundColor: setTypeColor(w) }}
-                                key={i}>
-                                {w}
-                              </span>
+                              <span className='badge badge-pill text-white mx-1' style={{ backgroundColor: setTypeColor(w) }} key={i}> {w} </span>
                             );
                           })}
                         </div>
@@ -112,7 +108,7 @@ const SinglePokemonPage: React.FC = () => {
                     <div className='row'>
                       {pokemon.prev_evolution?.map((pe, i) => {
                         return (
-                          <div className='col'>
+                          <div className='col' key={i}>
                             <h5 className='text-secondary'>
                               Previous Evolution
                             </h5>
@@ -127,8 +123,8 @@ const SinglePokemonPage: React.FC = () => {
                       })}
                       {pokemon.next_evolution?.map((ne, i) => {
                         return (
-                          <div className='col'>
-                            <h5 className='text-secondary'>Next Evolution</h5>
+                          <div className='col' key={i}>
+                            <h5 className='text-secondary' >Next Evolution</h5>
                             <div>
                               <Link to={`/pokemon/${ne.name.toLowerCase()}`}>
                                 {ne.name}

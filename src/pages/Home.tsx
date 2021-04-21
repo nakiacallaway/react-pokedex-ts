@@ -1,24 +1,21 @@
 import React, { useState, useEffect, ChangeEvent } from 'react';
 import { Link } from 'react-router-dom';
 import { pokemonData } from '../data/pokemonData';
+import { setTypeColor } from '../services';
 
 const HomePage: React.FC = () => {
   const [pokemon, setPokemon] = useState<Pokemon[]>(pokemonData);
   const [searchTerm, setSearchTerm] = useState<string>('');
 
   useEffect(() => {
-    console.log('is this rendering');
     const foundPoke = pokemonData.filter(pk => {
       return pk.name.toLowerCase().includes(searchTerm.toLowerCase());
     });
 
     searchTerm === '' ? setPokemon(pokemonData) : setPokemon(foundPoke);
-  }, []);
-
-  // useEffect(()=>{},[])
+  }, [searchTerm]);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    console.log(event.target.value);
     setSearchTerm(event.target.value);
   };
 
@@ -28,7 +25,7 @@ const HomePage: React.FC = () => {
         <div className='col'>
           <h2>Welcome to the Pokemon Pokedex!</h2>
           <h4 className='text-secondary'>
-            The worlds mediumest pokemon database!!
+            The world's 38th best pokemon database!!
           </h4>
         </div>
       </div>
@@ -51,29 +48,38 @@ const HomePage: React.FC = () => {
       <div className='row'>
         <div className='col'>
           <ul className='list-group'>
+          <div className="row" >
             {pokemon.map((poke, index) => {
               return (
-                <li
-                  className='list-group-item d-flex justify-content-around align-items-center'
-                  key={index}>
-                  {/* section img pulled to left */}
-                  <img src={poke.img} alt={poke.name} />
-                  <div className='poke-info'>
-                    <h2>
-                      <Link to={`/pokemon/${poke.name.toLowerCase()}`}>
-                        {poke.name}
-                      </Link>
-                    </h2>
+              <div className='col-3' key={index}>
+                <li className='list-group-item d-flex justify-content-around align-items-center'>
+                 <div className='poke-info text-center'>
+                    <h2><Link to={`/pokemon/${poke.name.toLowerCase()}`}>{poke.name}</Link></h2>
+                    <img src={poke.img} alt={poke.name} />
                     <div>
-                      <small>Height: {poke.height}</small>
-                      <small>Weight: {poke.weight}</small>
+                      <small>Height: {poke.height} | Weight: {poke.weight}</small>
+                    </div>
+                    <div>
+                      {poke.type.map((t, i) => {
+                        return (
+                          <span className='badge badge-pill text-white mx-1' style={{ backgroundColor: setTypeColor(t) }} key={i}> {t} </span>
+                          );
+                        })}
+                    </div>
+                    <div className='text-secondary'>Weaknesses</div>
+                      <div>{poke.weaknesses.map((w, i) => {
+                        return (
+                          <span className='badge badge-pill text-white mx-1' style={{ backgroundColor: setTypeColor(w) }} key={i}> {w} </span>
+                        );
+                      })}
                     </div>
                   </div>
-                  {/* section pokemon name that is wrapped in a link */}
-                  {/* section for details under the pokemon name */}
                 </li>
-              );
+                </div>  
+                
+             );
             })}
+          </div>
           </ul>
         </div>
       </div>

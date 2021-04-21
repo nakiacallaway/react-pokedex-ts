@@ -60,14 +60,14 @@ const HomePage: React.FC = () => {
                       <small>Height: {poke.height} | Weight: {poke.weight}</small>
                     </div>
                     <div>
-                      {pokemon.type.map((t, i) => {
+                      {poke.type.map((t, i) => {
                         return (
                           <span className='badge badge-pill text-white mx-1' style={{ backgroundColor: setTypeColor(t) }} key={i}> {t} </span>
                           );
                         })}
                     </div>
                     <div className='text-secondary'>Weaknesses</div>
-                      <div>{pokemon.weaknesses.map((w, i) => {
+                      <div>{poke.weaknesses.map((w, i) => {
                         return (
                           <span className='badge badge-pill text-white mx-1' style={{ backgroundColor: setTypeColor(w) }} key={i}> {w} </span>
                         );
